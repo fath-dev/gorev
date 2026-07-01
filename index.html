@@ -1,13 +1,145 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="tr">
 <head>
-  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
-  <title>Hello, World!</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sınav Görevlendirme Belgesi Sorgulama</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>
-    Hello, World!
-  </h1>
+    <div class="container">
+        <header>
+            <h1>🎓 Sınav Görevlendirme Belgesi</h1>
+            <p class="subtitle">Görev belgenizi TC kimlik numaranızla sorgulayabilirsiniz</p>
+        </header>
+
+        <main>
+            <div class="card search-card">
+                <h2>Görev Belgesi Sorgulama</h2>
+                <form id="searchForm">
+                    <div class="form-group">
+                        <label for="tcNo">TC Kimlik Numarası</label>
+                        <input 
+                            type="text" 
+                            id="tcNo" 
+                            name="tcNo" 
+                            placeholder="11 haneli TC kimlik numaranızı giriniz" 
+                            maxlength="11"
+                            pattern="[0-9]{11}"
+                            required
+                        >
+                        <small>Lütfen 11 haneli TC kimlik numaranızı giriniz</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="btn-icon">🔍</span>
+                        Görev Belgemi Sorgula
+                    </button>
+                </form>
+            </div>
+
+            <!-- Sonuç kartı -->
+            <div id="resultCard" class="card result-card" style="display: none;">
+                <div class="result-header">
+                    <h2>✅ Görevli Bilgileriniz</h2>
+                </div>
+                <div class="result-content">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Adı Soyadı:</span>
+                            <span class="info-value" id="adSoyad"></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">TC Kimlik No:</span>
+                            <span class="info-value" id="tcKimlik"></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Unvan:</span>
+                            <span class="info-value" id="unvan"></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Görevi:</span>
+                            <span class="info-value" id="gorevi"></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Görev Yeri:</span>
+                            <span class="info-value" id="gorevYeri"></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Görev Kodu:</span>
+                            <span class="info-value" id="gorevKodu"></span>
+                        </div>
+                    </div>
+
+                    <div class="exam-info">
+                        <h3>📋 Sınav Bilgileri</h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="info-label">Sınav Adı:</span>
+                                <span class="info-value" id="sinavAdi"></span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Tarih:</span>
+                                <span class="info-value" id="sinavTarihi"></span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Saat:</span>
+                                <span class="info-value" id="sinavSaati"></span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Sınav Yeri:</span>
+                                <span class="info-value" id="sinavYeri"></span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Bina:</span>
+                                <span class="info-value" id="binaAdi"></span>
+                            </div>
+                            <div class="info-item full-width">
+                                <span class="info-label">Adres:</span>
+                                <span class="info-value" id="binaAdresi"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button id="downloadPdfBtn" class="btn btn-success">
+                            <span class="btn-icon">📄</span>
+                            Görevlendirme Belgesini İndir (PDF)
+                        </button>
+                        <button id="newSearchBtn" class="btn btn-secondary">
+                            <span class="btn-icon">🔄</span>
+                            Yeni Sorgulama
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hata mesajı -->
+            <div id="errorCard" class="card error-card" style="display: none;">
+                <div class="error-content">
+                    <span class="error-icon">❌</span>
+                    <h3>Görevli Bulunamadı</h3>
+                    <p id="errorMessage">Girdiğiniz TC kimlik numarası ile ilişkilendirilmiş bir görevlendirme kaydı bulunamadı.</p>
+                    <button id="tryAgainBtn" class="btn btn-secondary">Tekrar Dene</button>
+                </div>
+            </div>
+
+            <!-- Yükleniyor -->
+            <div id="loadingCard" class="card loading-card" style="display: none;">
+                <div class="loading-content">
+                    <div class="spinner"></div>
+                    <p>Görevli bilgileriniz sorgulanıyor...</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>
+                <a href="/admin" class="admin-link">👨‍💼 Admin Paneli</a>
+            </p>
+            <p>&copy; 2026 Sınav Görevlendirme Sistemi</p>
+        </footer>
+    </div>
+
+    <script src="main.js"></script>
 </body>
 </html>
