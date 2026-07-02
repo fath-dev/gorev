@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Paneli - Sınav Görevlendirme</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>👨‍💼 Admin Paneli</h1>
+            <p class="subtitle">Sınav bilgileri ve görevli yönetimi</p>
+        </header>
+
+        <nav class="admin-nav">
+            <button class="tab-btn active" data-tab="sinav">📋 Sınav Bilgileri</button>
+            <button class="tab-btn" data-tab="gorevli">👥 Görevli Yönetimi</button>
+            <a href="/" class="btn btn-secondary">🏠 Ana Sayfa</a>
+        </nav>
+
+        <main>
+            <!-- Sınav Bilgileri Tab -->
+            <div id="sinavTab" class="tab-content active">
+                <div class="card">
+                    <h2>Sınav Bilgileri</h2>
+                    
+                    <div class="form-group">
+                        <label for="sinavSelect">Mevcut Sınavlar</label>
+                        <select id="sinavSelect">
+                            <option value="">Yeni Sınav Oluştur</option>
+                        </select>
+                    </div>
+
+                    <form id="sinavForm">
+                        <input type="hidden" id="sinavId" name="id">
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="sinavAdi">Sınav Adı *</label>
+                                <input type="text" id="sinavAdi" name="sinav_adi" required
+                                       placeholder="örn: 2026 Alan Yeterlilik Testleri (AYT)">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="sinavTarihi">Sınav Tarihi *</label>
+                                <input type="date" id="sinavTarihi" name="sinav_tarihi" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="sinavSaati">Sınav Saati *</label>
+                                <input type="text" id="sinavSaati" name="sinav_saati" required
+                                       placeholder="örn: 10.15">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="sinavSuresi">Sınav Süresi *</label>
+                                <input type="text" id="sinavSuresi" name="sinav_suresi" required
+                                       placeholder="örn: 180 dakika" value="180 dakika">
+                            </div>
+                            <div class="form-group">
+                                <label for="hazirBulunmaSaati">Hazır Bulunma Saati *</label>
+                                <input type="text" id="hazirBulunmaSaati" name="hazir_bulunma_saati" required
+                                       placeholder="örn: 1 saat önce" value="1 saat önce">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="sinavYeri">Sınav Yeri *</label>
+                                <input type="text" id="sinavYeri" name="sinav_yeri" required
+                                       placeholder="örn: ADANA/MERKEZ">
+                            </div>
+                            <div class="form-group">
+                                <label for="binaAdi">Bina Adı *</label>
+                                <input type="text" id="binaAdi" name="bina_adi" required
+                                       placeholder="örn: MEHMET AKİF ORTAOKULU">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="binaAdresi">Bina Adresi *</label>
+                            <input type="text" id="binaAdresi" name="bina_adresi" required
+                                   placeholder="örn: SÜMER MAH. KARAFATMA CAD. NO: 122/1">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="koordinatorlukAdresi">Koordinatörlük Adresi</label>
+                            <input type="text" id="koordinatorlukAdresi" name="koordinatorluk_adresi"
+                                   placeholder="örn: ÇUKUROVA ÜNİVERSİTESİ KÜLTÜR MÜDÜRLÜĞÜ YANI / SARIÇAM">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="koordinatorlukTelefon">Koordinatörlük Telefon</label>
+                            <input type="text" id="koordinatorlukTelefon" name="koordinatorluk_telefon"
+                                   placeholder="örn: 90 3223386377">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="kurallarMetni">Önemli Uyarılar / Kurallar</label>
+                            <textarea id="kurallarMetni" name="kurallar_metni" rows="10"
+                                      placeholder="Sınav kurallarını buraya giriniz..."></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <span class="btn-icon">💾</span>
+                                Kaydet
+                            </button>
+                            <button type="button" id="resetFormBtn" class="btn btn-secondary">
+                                <span class="btn-icon">🔄</span>
+                                Formu Temizle
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Görevli Yönetimi Tab -->
+            <div id="gorevliTab" class="tab-content">
+                <div class="card">
+                    <h2>Görevli Yönetimi</h2>
+                    
+                    <div class="form-group">
+                        <label for="gorevliSinavSelect">Sınav Seçin *</label>
+                        <select id="gorevliSinavSelect" required>
+                            <option value="">Lütfen sınav seçiniz</option>
+                        </select>
+                    </div>
+
+                    <!-- Excel Yükleme -->
+                    <div class="upload-section">
+                        <h3>📊 Excel'den Toplu Görevli Yükleme</h3>
+                        <p class="help-text">
+                            Excel dosyanızda şu sütunlar olmalıdır: 
+                            <strong>TC No, Ad, Soyad, Unvan, Görevi, Görev Yeri, Görev Kodu</strong>
+                        </p>
+                        <form id="excelUploadForm">
+                            <div class="file-input-wrapper">
+                                <input type="file" id="excelFile" accept=".xlsx,.xls" required>
+                                <label for="excelFile" class="file-label">
+                                    <span class="btn-icon">📁</span>
+                                    Excel Dosyası Seç
+                                </label>
+                                <span id="fileName" class="file-name"></span>
+                            </div>
+                            <button type="submit" class="btn btn-success">
+                                <span class="btn-icon">⬆️</span>
+                                Toplu Yükle
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Tekli Görevli Ekleme -->
+                    <div class="single-add-section">
+                        <h3>➕ Tekli Görevli Ekleme</h3>
+                        <form id="gorevliForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="gorevliTcNo">TC Kimlik No *</label>
+                                    <input type="text" id="gorevliTcNo" name="tc_no" maxlength="11" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="gorevliAd">Ad *</label>
+                                    <input type="text" id="gorevliAd" name="ad" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="gorevliSoyad">Soyad *</label>
+                                    <input type="text" id="gorevliSoyad" name="soyad" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="gorevliUnvan">Unvan</label>
+                                    <input type="text" id="gorevliUnvan" name="unvan">
+                                </div>
+                                <div class="form-group">
+                                    <label for="gorevliGorevi">Görevi *</label>
+                                    <input type="text" id="gorevliGorevi" name="gorevi" required
+                                           placeholder="örn: Gözetmen">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="gorevliGorevYeri">Görev Yeri *</label>
+                                    <input type="text" id="gorevliGorevYeri" name="gorev_yeri" required
+                                           placeholder="örn: İL MİLLİ EĞİTİM MÜDÜRLÜĞÜ (ADANA)">
+                                </div>
+                                <div class="form-group">
+                                    <label for="gorevliGorevKodu">Görev Kodu</label>
+                                    <input type="text" id="gorevliGorevKodu" name="gorev_kodu"
+                                           placeholder="örn: 184375">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="gorevliFotograf">Fotoğraf</label>
+                                <input type="file" id="gorevliFotograf" accept="image/jpeg,image/jpg,image/png">
+                                <small>JPG, JPEG veya PNG formatında, maksimum 5MB</small>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">
+                                <span class="btn-icon">✅</span>
+                                Görevli Ekle
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Görevli Listesi -->
+                    <div class="gorevli-list-section">
+                        <h3>📋 Kayıtlı Görevliler</h3>
+                        <div id="gorevliListesi" class="table-container">
+                            <p class="no-data">Lütfen önce bir sınav seçiniz</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bildirimler -->
+            <div id="notification" class="notification"></div>
+        </main>
+
+        <!-- Düzenleme Modal -->
+        <div id="editModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                                     background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+            <div style="background: white; border-radius: 12px; width: 90%; max-width: 600px; 
+                        max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+                <div style="padding: 24px; border-bottom: 1px solid #e1e8ed;">
+                    <h2 style="margin: 0; color: #1a202c; font-size: 24px;">✏️ Görevli Düzenle</h2>
+                </div>
+                
+                <form id="editGorevliForm" style="padding: 24px;">
+                    <input type="hidden" id="editGorevliId">
+                    <input type="hidden" id="currentFotografYolu">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editTcNo">TC Kimlik No *</label>
+                            <input type="text" id="editTcNo" maxlength="11" required
+                                   placeholder="11 haneli TC kimlik numarası">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editAd">Ad *</label>
+                            <input type="text" id="editAd" required placeholder="örn: Ahmet">
+                        </div>
+                        <div class="form-group">
+                            <label for="editSoyad">Soyad *</label>
+                            <input type="text" id="editSoyad" required placeholder="örn: YILMAZ">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editUnvan">Unvan</label>
+                            <input type="text" id="editUnvan" placeholder="örn: Öğretmen">
+                        </div>
+                        <div class="form-group">
+                            <label for="editGorevi">Görevi *</label>
+                            <input type="text" id="editGorevi" required
+                                   placeholder="örn: Salon Görevlisi">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editGorevYeri">Görev Yeri *</label>
+                            <input type="text" id="editGorevYeri" required
+                                   placeholder="örn: İL MİLLİ EĞİTİM MÜDÜRLÜĞÜ (ADANA)">
+                        </div>
+                        <div class="form-group">
+                            <label for="editGorevKodu">Görev Kodu</label>
+                            <input type="text" id="editGorevKodu" placeholder="örn: 184375">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Mevcut Fotoğraf</label>
+                        <div id="currentPhotoPreview" style="margin-top: 8px;">
+                            <p style="color: #999;">Fotoğraf yok</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editFotograf">Yeni Fotoğraf (Opsiyonel)</label>
+                        <input type="file" id="editFotograf" accept="image/jpeg,image/jpg,image/png">
+                        <small>JPG, JPEG veya PNG formatında, maksimum 5MB. Boş bırakırsanız mevcut fotoğraf korunur.</small>
+                    </div>
+
+                    <div style="display: flex; gap: 12px; margin-top: 24px;">
+                        <button type="submit" class="btn btn-primary" style="flex: 1;">
+                            <span class="btn-icon">💾</span> Değişiklikleri Kaydet
+                        </button>
+                        <button type="button" onclick="closeEditModal()" class="btn btn-secondary" style="flex: 1;">
+                            <span class="btn-icon">✖️</span> İptal
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 Sınav Görevlendirme Sistemi - Admin Paneli</p>
+        </footer>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
